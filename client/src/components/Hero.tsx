@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ArrowRight, MessageCircle } from "lucide-react";
 
@@ -199,18 +200,24 @@ const Hero = () => {
           ref={buttonsRef}
           className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6"
         >
-          <button className="group relative bg-gym-accent text-white px-8 py-4 rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,95,31,0.6)]">
-            <span className="relative z-10 flex items-center gap-3">
+          <Link
+            to="/signup"
+            className="group relative bg-gym-accent text-white px-8 py-4 rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,95,31,0.6)] text-center"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-3">
               Join Membership
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </span>
             <div className="absolute inset-0 bg-white/20 transform -skew-x-12 translate-x-full group-hover:animate-shine" />
-          </button>
+          </Link>
 
-          <button className="group border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:bg-white hover:text-gym-black hover:scale-105 flex items-center gap-3">
+          <Link
+            to="/login"
+            className="group border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:bg-white hover:text-gym-black hover:scale-105 flex items-center justify-center gap-3 text-center"
+          >
             <MessageCircle className="w-5 h-5" />
             Ask a Question
-          </button>
+          </Link>
         </div>
       </div>
 

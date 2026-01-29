@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X, ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -98,16 +99,19 @@ const Navbar = () => {
 
         {/* Right Actions */}
         <div ref={actionsRef} className="hidden md:flex items-center space-x-6">
-          <a
-            href="#login"
+          <Link
+            to="/login"
             className="text-sm font-medium text-white border border-white/20 px-5 py-2.5 rounded-full hover:bg-white/10 hover:border-white transition-all duration-300"
           >
             Login
-          </a>
-          <button className="bg-gym-accent hover:bg-gym-orange text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(225,6,0,0.3)] hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] flex items-center gap-2">
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-gym-accent hover:bg-gym-orange text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(225,6,0,0.3)] hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] flex items-center gap-2"
+          >
             Join Membership
             <ArrowRight size={16} />
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -135,9 +139,13 @@ const Navbar = () => {
             {link.name}
           </a>
         ))}
-        <button className="mt-8 bg-gym-accent text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-gym-orange transition-colors">
+        <Link
+          to="/signup"
+          className="mt-8 bg-gym-accent text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-gym-orange transition-colors"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
           Join Membership
-        </button>
+        </Link>
       </div>
     </nav>
   );
