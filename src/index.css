@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gym-black: #0b0b0b;
+  --color-gym-accent: #e10600;
+  --color-gym-orange: #ff5f1f;
+  --color-gym-gray: #1f1f1f;
+  --color-gym-dark: #0f0f0f;
+
+  --font-sans: "Outfit", sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gym-black text-white font-sans overflow-x-hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-gym-black;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gym-gray rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gym-accent;
+}
