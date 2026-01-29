@@ -48,13 +48,13 @@ const Membership = () => {
     <section
       ref={sectionRef}
       id="pricing"
-      className="py-24 bg-gym-gray relative scroll-mt-20"
+      className="pt-12 pb-24 bg-gym-gray relative scroll-mt-20"
     >
       {/* Background Noise/Texture optional */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 mix-blend-overlay"></div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <h2 className="text-gym-accent font-bold tracking-wider uppercase text-sm mb-2">
             Membership Plans
           </h2>
@@ -82,8 +82,10 @@ const Membership = () => {
                 </div>
               )}
 
-              <h4 className="text-xl font-bold text-white mb-2">{plan.name}</h4>
-              <div className="flex items-baseline mb-6">
+              <h4 className="text-xl font-bold text-white mb-2 text-center">
+                {plan.name}
+              </h4>
+              <div className="flex items-baseline justify-center mb-6">
                 <span className="text-4xl font-bold text-white">$</span>
                 <span className="text-5xl font-extrabold text-white">
                   {plan.price}
