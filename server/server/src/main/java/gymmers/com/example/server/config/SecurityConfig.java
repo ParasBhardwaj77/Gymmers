@@ -1,6 +1,5 @@
 package gymmers.com.example.server.config;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,30 +15,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
         private final JwtAuthFilter jwtAuthFilter;
+
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
+
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-            http
-                    .cors(cors -> {})
-                    .csrf(csrf -> csrf.disable())
-                    .sessionManagement(session ->
-                            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    )
-                    .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/api/auth/**").permitAll()
-                            .anyRequest().authenticated()
-                    )
-                    .addFilterBefore(
-                            jwtAuthFilter,
-                            UsernamePasswordAuthenticationFilter.class
-                    );
-            return http.build();
+                http
+                                .cors(cors -> {
+                                })
+                                .csrf(csrf -> csrf.disable())
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers("/api/auth/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .addFilterBefore(
+                                                jwtAuthFilter,
+                                                UsernamePasswordAuthenticationFilter.class);
+                return http.build();
         }
-    }
-
-
-
+}

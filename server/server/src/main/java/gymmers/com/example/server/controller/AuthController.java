@@ -1,6 +1,5 @@
 package gymmers.com.example.server.controller;
 
-
 import gymmers.com.example.server.dto.LoginRequest;
 import gymmers.com.example.server.dto.LoginResponse;
 import gymmers.com.example.server.dto.SignupRequest;
@@ -19,15 +18,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     public SignupResponse signup(
-            @Valid @RequestBody SignupRequest req
-    ) {
+            @Valid @RequestBody SignupRequest req) {
         return authService.signup(req);
     }
 
     @PostMapping("/login")
     public LoginResponse login(
-            @Valid @RequestBody LoginRequest req
-    ) {
+            @Valid @RequestBody LoginRequest req) {
         return authService.login(req);
     }
 }

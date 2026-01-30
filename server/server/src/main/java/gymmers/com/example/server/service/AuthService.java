@@ -1,6 +1,5 @@
 package gymmers.com.example.server.service;
 
-
 import gymmers.com.example.server.config.JwtUtil;
 import gymmers.com.example.server.dto.LoginRequest;
 import gymmers.com.example.server.dto.LoginResponse;
@@ -30,18 +29,17 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         user.setRole("USER");
         userRepo.save(user);
-        return new SignupResponse("Signup successful",user.getEmail());
+        return new SignupResponse("Signup successful", user.getEmail());
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-        User user =  userRepo.findByEmail(loginRequest.getEmail())
-                .orElseThrow(()-> new RuntimeException("Invalid email or password"));
-        if(!passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())) {
+        User user = userRepo.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        return new LoginResponse(token,user.getRole());
+        return new LoginResponse(token, user.getRole());
     }
-
 
 }

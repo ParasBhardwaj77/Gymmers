@@ -1,6 +1,5 @@
 package gymmers.com.example.server.config;
 
-
 import gymmers.com.example.server.model.User;
 import gymmers.com.example.server.repo.UserRepo;
 import jakarta.servlet.FilterChain;
@@ -53,12 +52,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         User user = userRepo.findByEmail(email).orElse(null);
 
         if (user != null) {
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            user.getEmail(),
-                            null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
-                    );
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    user.getEmail(),
+                    null,
+                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
 
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
