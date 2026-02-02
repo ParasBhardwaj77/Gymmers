@@ -1,12 +1,22 @@
-import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ArrowRight, Mail, Lock, ArrowLeft, User } from "lucide-react";
+import api from "../api/axios";
 
 const SignupPage = () => {
   const leftSideRef = useRef<HTMLDivElement>(null);
   const rightSideRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -29,6 +39,26 @@ const SignupPage = () => {
         "-=0.5",
       );
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      await api.post("/auth/signup", formData);
+      navigate("/login");
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || "Signup failed. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen w-full flex bg-gym-black overflow-hidden font-sans">
@@ -96,6 +126,11 @@ const SignupPage = () => {
               </div>
             </div>
 
+            {/* Error Message */}
+            {error && (
+              <div className="text-red-500 text-xs text-center">{error}</div>
+            )}
+
             {/* Form Fields */}
             <div className="space-y-3">
               <div className="space-y-1.5">
@@ -108,6 +143,9 @@ const SignupPage = () => {
                   </div>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
                     placeholder="John Doe"
                     className="w-full bg-white/5 border border-white/10 text-white pl-10 pr-4 py-2.5 rounded-xl outline-none focus:border-gym-accent focus:bg-white/10 text-sm transition-all placeholder:text-gray-600"
                   />
@@ -124,6 +162,9 @@ const SignupPage = () => {
                   </div>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     placeholder="name@example.com"
                     className="w-full bg-white/5 border border-white/10 text-white pl-10 pr-4 py-2.5 rounded-xl outline-none focus:border-gym-accent focus:bg-white/10 text-sm transition-all placeholder:text-gray-600"
                   />
@@ -140,6 +181,9 @@ const SignupPage = () => {
                   </div>
                   <input
                     type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     placeholder="••••••••"
                     className="w-full bg-white/5 border border-white/10 text-white pl-10 pr-4 py-2.5 rounded-xl outline-none focus:border-gym-accent focus:bg-white/10 text-sm transition-all placeholder:text-gray-600"
                   />
@@ -147,12 +191,18 @@ const SignupPage = () => {
               </div>
             </div>
 
-            <button className="w-full group bg-gym-accent hover:bg-gym-orange text-white py-3.5 rounded-xl font-bold text-base transition-all duration-300 shadow-[0_0_20px_rgba(255,10,0,0.2)] hover:shadow-[0_0_30px_rgba(255,95,31,0.4)] flex items-center justify-center gap-2 mt-2">
-              Get Started
-              <ArrowRight
-                size={16}
-                className="group-hover:translate-x-1 transition-transform"
-              />
+            <button
+              onClick={handleSubmit}
+              className="w-full group bg-gym-accent hover:bg-gym-orange text-white py-3.5 rounded-xl font-bold text-base transition-all duration-300 shadow-[0_0_20px_rgba(255,10,0,0.2)] hover:shadow-[0_0_30px_rgba(255,95,31,0.4)] flex items-center justify-center gap-2 mt-2"
+              disabled={loading}
+            >
+              {loading ? "Creating Account..." : "Get Started"}
+              {!loading && (
+                <ArrowRight
+                  size={16}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              )}
             </button>
           </div>
 

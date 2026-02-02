@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import { Menu, X, ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import UserMenu from "./UserMenu";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
@@ -20,6 +23,27 @@ const Navbar = () => {
     { name: "Pricing", href: "#pricing" },
     { name: "Location", href: "#location" },
   ];
+
+  // Check auth state
+  const checkAuth = () => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  };
+
+  useEffect(() => {
+    checkAuth();
+
+    // Listen for storage events (logout from another tab)
+    window.addEventListener("storage", checkAuth);
+
+    // Custom event listener for same-tab updates
+    // This is optional but helpful if not using a global state manager
+    // We'll rely on storage event or just page reload for now as implemented in UserMenu
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,7 +94,8 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <div
+        <Link
+          to="/"
           ref={logoRef}
           className="text-2xl font-bold font-sans tracking-tighter uppercase text-white cursor-pointer group"
         >
@@ -78,7 +103,7 @@ const Navbar = () => {
           <span className="text-gym-accent group-hover:text-white transition-colors">
             mers
           </span>
-        </div>
+        </Link>
 
         {/* Desktop Links */}
         <div
@@ -99,19 +124,25 @@ const Navbar = () => {
 
         {/* Right Actions */}
         <div ref={actionsRef} className="hidden md:flex items-center space-x-6">
-          <Link
-            to="/login"
-            className="text-sm font-medium text-white border border-white/20 px-5 py-2.5 rounded-full hover:bg-white/10 hover:border-white transition-all duration-300"
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className="bg-gym-accent hover:bg-gym-orange text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(225,6,0,0.3)] hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] flex items-center gap-2"
-          >
-            Join Membership
-            <ArrowRight size={16} />
-          </Link>
+          {isLoggedIn ? (
+            <UserMenu />
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="text-sm font-medium text-white border border-white/20 px-5 py-2.5 rounded-full hover:bg-white/10 hover:border-white transition-all duration-300"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-gym-accent hover:bg-gym-orange text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(225,6,0,0.3)] hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] flex items-center gap-2"
+              >
+                Join Membership
+                <ArrowRight size={16} />
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -139,13 +170,31 @@ const Navbar = () => {
             {link.name}
           </a>
         ))}
-        <Link
-          to="/signup"
-          className="mt-8 bg-gym-accent text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-gym-orange transition-colors"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          Join Membership
-        </Link>
+        {isLoggedIn ? (
+          <div className="flex flex-col items-center gap-4">
+            <span className="text-xl font-medium text-white">My Profile</span>
+            <button
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                setIsLoggedIn(false);
+                setIsMobileMenuOpen(false);
+                window.location.reload();
+              }}
+              className="bg-red-500/20 text-red-500 px-8 py-2 rounded-full font-bold text-lg"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Link
+            to="/signup"
+            className="mt-8 bg-gym-accent text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-gym-orange transition-colors"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Join Membership
+          </Link>
+        )}
       </div>
     </nav>
   );

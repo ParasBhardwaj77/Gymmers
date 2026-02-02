@@ -31,22 +31,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
-
-        // 1️⃣ No token → continue (public endpoints)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String token = authHeader.substring(7);
-
-        // 2️⃣ Invalid token → continue (will fail auth later)
         if (!jwtUtil.isTokenValid(token)) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        // 3️⃣ Extract user info
         String email = jwtUtil.extractEmail(token);
 
         User user = userRepo.findByEmail(email).orElse(null);
@@ -60,8 +54,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext()
                     .setAuthentication(authentication);
         }
-
-        // 4️⃣ Continue request
         filterChain.doFilter(request, response);
     }
 }
