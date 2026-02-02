@@ -1,11 +1,43 @@
 import { useEffect, useRef } from "react";
 import { MessageSquare, Send } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
+import api from "../api/axios";
 
 const AIAssistant = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const handleTryAI = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const userStr = localStorage.getItem("user");
+      const isPremium = userStr ? JSON.parse(userStr).premium === true : false;
+
+      if (!isPremium) {
+        try {
+          const response = await api.post("/payment/create-checkout-session");
+          if (response.data && response.data.url) {
+            window.location.href = response.data.url;
+          }
+        } catch (error) {
+          console.error("Error creating checkout session:", error);
+          alert("Failed to initiate payment. Please try again.");
+        }
+      } else {
+        navigate("/ai-beta");
+      }
+    } catch (e) {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     const chatBubbles = chatRef.current?.children;
@@ -85,7 +117,10 @@ const AIAssistant = () => {
               </li>
             ))}
           </ul>
-          <button className="mt-4 bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full font-bold transition-colors">
+          <button
+            onClick={handleTryAI}
+            className="mt-4 bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full font-bold transition-colors"
+          >
             Try AI Beta
           </button>
         </div>
