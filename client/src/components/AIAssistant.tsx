@@ -81,7 +81,7 @@ const AIAssistant = () => {
   return (
     <section
       ref={containerRef}
-      className="py-24 bg-gym-black relative overflow-hidden"
+      className="py-16 md:py-24 bg-gym-black relative overflow-hidden"
     >
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Left: Text Content */}

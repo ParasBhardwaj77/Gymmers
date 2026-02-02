@@ -226,14 +226,14 @@ const Hero = () => {
   return (
     <section
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-gym-black pb-24 pt-32"
+      className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-gym-black py-20 md:pb-24 md:pt-32"
     >
       {/* Canvas Background */}
       <div className="absolute inset-0 z-0">
         <canvas ref={canvasRef} className="w-full h-full block" />
         {/* Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-gym-black via-gym-black/40 to-black/20 z-10"></div>
-        <div className="absolute inset-0 bg-black/50 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-gym-black via-gym-black/60 to-black/30 z-10"></div>
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
       </div>
 
       {/* Content */}
@@ -242,7 +242,7 @@ const Hero = () => {
           <h2 className="text-gym-accent font-bold tracking-[0.2em] uppercase text-sm md:text-base animate-pulse">
             Welcome to the Future of Fitness
           </h2>
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold tracking-tight text-white leading-tight drop-shadow-2xl">
+          <h1 className="text-5xl md:text-6xl lg:text-8xl font-extrabold tracking-tight text-white leading-[1.1] drop-shadow-2xl">
             TRAIN HARD.
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-200 to-gray-500">
@@ -251,7 +251,7 @@ const Hero = () => {
             <br />
             <span className="text-gym-accent">BE A GYMMER.</span>
           </h1>
-          <p className="text-gray-200 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed drop-shadow-lg">
+          <p className="text-gray-200 text-base md:text-xl max-w-3xl mx-auto font-light leading-relaxed drop-shadow-lg px-4 md:px-0">
             Elite training, smart nutrition, and AI-powered fitness guidance —
             all within a premium facility designed for champions.
           </p>

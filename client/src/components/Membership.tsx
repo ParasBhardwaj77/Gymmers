@@ -48,7 +48,7 @@ const Membership = () => {
     <section
       ref={sectionRef}
       id="pricing"
-      className="pt-12 pb-24 bg-gym-gray relative scroll-mt-20"
+      className="py-16 md:pt-12 md:pb-24 bg-gym-gray relative scroll-mt-20"
     >
       {/* Background Noise/Texture optional */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 mix-blend-overlay"></div>

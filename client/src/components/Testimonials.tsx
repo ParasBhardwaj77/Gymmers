@@ -58,7 +58,7 @@ const Testimonials = () => {
   }, [currentIndex]);
 
   return (
-    <section className="py-24 bg-gym-gray relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-gym-gray relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-10 left-10 text-gym-accent/5">
         <Quote size={200} />

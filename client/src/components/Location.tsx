@@ -92,7 +92,7 @@ const Location = () => {
     <section
       ref={sectionRef}
       id="location"
-      className="py-24 bg-gym-black relative overflow-hidden scroll-mt-20"
+      className="py-16 md:py-24 bg-gym-black relative overflow-hidden scroll-mt-20"
     >
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -171,7 +171,7 @@ const Location = () => {
           {/* Map */}
           <div
             ref={mapRef}
-            className="relative h-[500px] w-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl group"
+            className="relative h-[350px] md:h-[500px] w-full rounded-3xl overflow-hidden border border-white/10 shadow-2xl group"
           >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.522204555845!2d-73.9893!3d40.6932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a4a9c687259%3A0x889893110037a346!2sDowntown%20Brooklyn%2C%20Brooklyn%2C%20NY!5e0!3m2!1sen!2sus!4v1706600000000!5m2!1sen!2sus&invert_filter=true&maptype=roadmap&mode=dark"
