@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Send, Bot, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 const AIBeta = () => {
   const [messages, setMessages] = useState<{ text: string; isBot: boolean }[]>([
@@ -64,25 +65,39 @@ const AIBeta = () => {
     }
   }, [messages]);
 
-  const handleSend = (e: React.FormEvent) => {
+  const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputText.trim()) return;
+    const prompt = inputText.trim();
+    if (!prompt) return;
 
     // Add User Message
-    setMessages((prev) => [...prev, { text: inputText, isBot: false }]);
-    const userInput = inputText;
+    setMessages((prev) => [...prev, { text: prompt, isBot: false }]);
     setInputText("");
 
-    // Simulate AI Response
-    setTimeout(() => {
+    try {
+      // Call Backend API
+      /* import api from "../api/axios"; // Ensure this import exists at top */
+      const response = await api.post("/chat", { prompt });
+
+      if (response.data && response.data.response) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            text: response.data.response,
+            isBot: true,
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error("Chat Error:", error);
       setMessages((prev) => [
         ...prev,
         {
-          text: `I'm analyzing your request: "${userInput}". As an AI Beta, I'm still learning, but I recommend focusing on consistency and progressive overload!`,
+          text: "Sorry, I'm having trouble connecting to the fitness database. Please try again.",
           isBot: true,
         },
       ]);
-    }, 1000);
+    }
   };
 
   return (

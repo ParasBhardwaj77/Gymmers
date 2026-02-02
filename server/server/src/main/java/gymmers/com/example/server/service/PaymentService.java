@@ -7,14 +7,11 @@ import com.stripe.param.checkout.SessionCreateParams;
 import gymmers.com.example.server.model.User;
 import gymmers.com.example.server.repo.UserRepo;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import org.springframework.stereotype.Service;
-
 @Service
-@RequiredArgsConstructor
 public class PaymentService {
 
     @Value("${stripe.api.key}")
@@ -24,6 +21,10 @@ public class PaymentService {
     private String frontendUrl;
 
     private final UserRepo userRepo;
+
+    public PaymentService(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @PostConstruct
     public void init() {

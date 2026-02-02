@@ -7,17 +7,22 @@ import gymmers.com.example.server.dto.SignupRequest;
 import gymmers.com.example.server.dto.SignupResponse;
 import gymmers.com.example.server.model.User;
 import gymmers.com.example.server.repo.UserRepo;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepo userRepo;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+
+    public AuthService(UserRepo userRepo, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public SignupResponse signup(SignupRequest signupRequest) {
         if (userRepo.findByEmail(signupRequest.getEmail()).isPresent()) {

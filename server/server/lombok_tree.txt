@@ -1,0 +1,16 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< gymmers.com.example:server >---------------------
+[INFO] Building server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.6.1:tree (default-cli) @ server ---
+[INFO] gymmers.com.example:server:jar:0.0.1-SNAPSHOT
+[INFO] \- org.projectlombok:lombok:jar:1.18.36:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.317 s
+[INFO] Finished at: 2026-02-02T14:33:27+05:30
+[INFO] ------------------------------------------------------------------------

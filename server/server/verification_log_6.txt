@@ -1,0 +1,15 @@
+[INFO] Scanning for projects...
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[ERROR] Malformed POM C:\Gymmers\server\server\pom.xml: Unrecognised tag: 'java.version' (position: START_TAG seen ...</description>\n\n        <java.version>... @22:23)  @ C:\Gymmers\server\server\pom.xml, line 22, column 23
+ @ 
+[ERROR] The build could not read 1 project -> [Help 1]
+[ERROR]   
+[ERROR]   The project gymmers.com.example:server:0.0.1-SNAPSHOT (C:\Gymmers\server\server\pom.xml) has 1 error
+[ERROR]     Malformed POM C:\Gymmers\server\server\pom.xml: Unrecognised tag: 'java.version' (position: START_TAG seen ...</description>\n\n        <java.version>... @22:23)  @ C:\Gymmers\server\server\pom.xml, line 22, column 23 -> [Help 2]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/ProjectBuildingException
+[ERROR] [Help 2] http://cwiki.apache.org/confluence/display/MAVEN/ModelParseException

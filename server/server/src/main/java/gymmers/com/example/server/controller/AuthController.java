@@ -6,15 +6,18 @@ import gymmers.com.example.server.dto.SignupRequest;
 import gymmers.com.example.server.dto.SignupResponse;
 import gymmers.com.example.server.service.AuthService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/signup")
     public SignupResponse signup(

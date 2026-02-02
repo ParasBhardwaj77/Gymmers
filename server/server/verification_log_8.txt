@@ -1,0 +1,184 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< gymmers.com.example:server >---------------------
+[INFO] Building server 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ server ---
+[INFO] Deleting C:\Gymmers\server\server\target
+[INFO] 
+[INFO] >>> spring-boot:3.4.2:run (default-cli) > test-compile @ server >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ server ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ server ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 20 source files with javac [debug parameters release 21] to target\classes
+[INFO] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java: C:\Gymmers\server\server\src\main\java\gymmers\com\example\server\service\ChatService.java uses unchecked or unsafe operations.
+[INFO] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java: Recompile with -Xlint:unchecked for details.
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/config/JwtAuthFilter.java:[50,25] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/config/JwtAuthFilter.java:[52,70] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[23,47] cannot find symbol
+  symbol:   method getEmail()
+  location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[27,35] cannot find symbol
+  symbol:   method getName()
+  location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[28,36] cannot find symbol
+  symbol:   method getEmail()
+  location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[29,62] cannot find symbol
+  symbol:   method getPassword()
+  location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[30,13] cannot find symbol
+  symbol:   method setRole(java.lang.String)
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[31,13] cannot find symbol
+  symbol:   method setPremium(boolean)
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[33,60] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[37,54] cannot find symbol
+  symbol:   method getEmail()
+  location: variable loginRequest of type gymmers.com.example.server.dto.LoginRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[39,50] cannot find symbol
+  symbol:   method getPassword()
+  location: variable loginRequest of type gymmers.com.example.server.dto.LoginRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[39,70] cannot find symbol
+  symbol:   method getPassword()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[42,50] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[42,67] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,94] cannot find symbol
+  symbol:   method isPremium()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,77] cannot find symbol
+  symbol:   method getEmail()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,61] cannot find symbol
+  symbol:   method getName()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,45] cannot find symbol
+  symbol:   method getRole()
+  location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/controller/ChatController.java:[20,69] cannot find symbol
+  symbol:   method getPrompt()
+  location: variable request of type gymmers.com.example.server.dto.ChatRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java:[74,32] constructor ChatResponse in class gymmers.com.example.server.dto.ChatResponse cannot be applied to given types;
+  required: no arguments
+  found:    java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java:[78,20] constructor ChatResponse in class gymmers.com.example.server.dto.ChatResponse cannot be applied to given types;
+  required: no arguments
+  found:    java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java:[82,20] constructor ChatResponse in class gymmers.com.example.server.dto.ChatResponse cannot be applied to given types;
+  required: no arguments
+  found:    java.lang.String
+  reason: actual and formal argument lists differ in length
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/PaymentService.java:[71,29] cannot find symbol
+  symbol:   method setPremium(boolean)
+  location: variable user of type gymmers.com.example.server.model.User
+[INFO] 23 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  3.333 s
+[INFO] Finished at: 2026-02-02T14:44:10+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project server: Compilation failure: Compilation failure: 
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/config/JwtAuthFilter.java:[50,25] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/config/JwtAuthFilter.java:[52,70] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[23,47] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[27,35] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[28,36] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[29,62] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable signupRequest of type gymmers.com.example.server.dto.SignupRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[30,13] cannot find symbol
+[ERROR]   symbol:   method setRole(java.lang.String)
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[31,13] cannot find symbol
+[ERROR]   symbol:   method setPremium(boolean)
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[33,60] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[37,54] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable loginRequest of type gymmers.com.example.server.dto.LoginRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[39,50] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable loginRequest of type gymmers.com.example.server.dto.LoginRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[39,70] cannot find symbol
+[ERROR]   symbol:   method getPassword()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[42,50] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[42,67] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,94] cannot find symbol
+[ERROR]   symbol:   method isPremium()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,77] cannot find symbol
+[ERROR]   symbol:   method getEmail()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,61] cannot find symbol
+[ERROR]   symbol:   method getName()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/AuthService.java:[43,45] cannot find symbol
+[ERROR]   symbol:   method getRole()
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/controller/ChatController.java:[20,69] cannot find symbol
+[ERROR]   symbol:   method getPrompt()
+[ERROR]   location: variable request of type gymmers.com.example.server.dto.ChatRequest
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java:[74,32] constructor ChatResponse in class gymmers.com.example.server.dto.ChatResponse cannot be applied to given types;
+[ERROR]   required: no arguments
+[ERROR]   found:    java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java:[78,20] constructor ChatResponse in class gymmers.com.example.server.dto.ChatResponse cannot be applied to given types;
+[ERROR]   required: no arguments
+[ERROR]   found:    java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/ChatService.java:[82,20] constructor ChatResponse in class gymmers.com.example.server.dto.ChatResponse cannot be applied to given types;
+[ERROR]   required: no arguments
+[ERROR]   found:    java.lang.String
+[ERROR]   reason: actual and formal argument lists differ in length
+[ERROR] /C:/Gymmers/server/server/src/main/java/gymmers/com/example/server/service/PaymentService.java:[71,29] cannot find symbol
+[ERROR]   symbol:   method setPremium(boolean)
+[ERROR]   location: variable user of type gymmers.com.example.server.model.User
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
