@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, ArrowRight, LayoutDashboard, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import UserMenu from "./UserMenu";
+import api from "../api/axios";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +12,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
+  const navigate = useNavigate();
 
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
@@ -28,17 +31,42 @@ const Navbar = () => {
   const checkAuth = () => {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
+
+    try {
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        setIsPremium(user.premium === true);
+      } else {
+        setIsPremium(false);
+      }
+    } catch (e) {
+      setIsPremium(false);
+    }
+  };
+
+  const handleJoinMembership = async () => {
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await api.post("/payment/create-checkout-session");
+      if (response.data && response.data.url) {
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+      alert("Failed to initiate payment. Please try again.");
+    }
   };
 
   useEffect(() => {
     checkAuth();
 
-    // Listen for storage events (logout from another tab)
+    // Listen for storage events
     window.addEventListener("storage", checkAuth);
-
-    // Custom event listener for same-tab updates
-    // This is optional but helpful if not using a global state manager
-    // We'll rely on storage event or just page reload for now as implemented in UserMenu
 
     return () => {
       window.removeEventListener("storage", checkAuth);
@@ -120,12 +148,49 @@ const Navbar = () => {
               <span className="absolute bottom-[-4px] left-0 w-0 h-[2px] bg-gym-accent transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
+
+          {isPremium && (
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-1 pl-4 border-l border-white/20 cursor-pointer hover:border-gym-accent transition-colors"
+            >
+              <LayoutDashboard size={14} className="text-gym-accent" />
+              <span className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-gym-accent to-gym-orange">
+                DASHBOARD
+              </span>
+            </Link>
+          )}
         </div>
 
         {/* Right Actions */}
         <div ref={actionsRef} className="hidden md:flex items-center space-x-6">
           {isLoggedIn ? (
-            <UserMenu />
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => {
+                  if (!isPremium) {
+                    handleJoinMembership();
+                  } else {
+                    navigate("/ai-beta");
+                  }
+                }}
+                className="bg-transparent border-2 border-gym-accent text-gym-accent hover:bg-gym-accent hover:text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(255,95,31,0.2)] flex items-center gap-2"
+              >
+                <Sparkles size={16} />
+                Try AI Beta
+              </button>
+
+              {!isPremium && (
+                <button
+                  onClick={handleJoinMembership}
+                  className="bg-gym-accent hover:bg-gym-orange text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(225,6,0,0.3)] hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] flex items-center gap-2"
+                >
+                  Join Membership
+                  <ArrowRight size={16} />
+                </button>
+              )}
+              <UserMenu />
+            </div>
           ) : (
             <>
               <Link
@@ -134,13 +199,20 @@ const Navbar = () => {
               >
                 Login
               </Link>
-              <Link
-                to="/signup"
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-transparent border-2 border-gym-accent text-gym-accent hover:bg-gym-accent hover:text-white px-5 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(255,95,31,0.2)] flex items-center gap-2"
+              >
+                <Sparkles size={16} />
+                Try AI Beta
+              </button>
+              <button
+                onClick={handleJoinMembership}
                 className="bg-gym-accent hover:bg-gym-orange text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 shadow-[0_0_15px_rgba(225,6,0,0.3)] hover:shadow-[0_0_25px_rgba(255,95,31,0.5)] flex items-center gap-2"
               >
                 Join Membership
                 <ArrowRight size={16} />
-              </Link>
+              </button>
             </>
           )}
         </div>
@@ -160,6 +232,14 @@ const Navbar = () => {
           isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
       >
+        {isPremium && (
+          <div className="flex items-center gap-2 mb-4">
+            <LayoutDashboard size={20} className="text-gym-accent" />
+            <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gym-accent to-gym-orange">
+              PREMIUM DASHBOARD
+            </span>
+          </div>
+        )}
         {navLinks.map((link) => (
           <a
             key={link.name}
@@ -172,12 +252,26 @@ const Navbar = () => {
         ))}
         {isLoggedIn ? (
           <div className="flex flex-col items-center gap-4">
-            <span className="text-xl font-medium text-white">My Profile</span>
+            {!isPremium && (
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  handleJoinMembership();
+                }}
+                className="mt-4 bg-gym-accent text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-gym-orange transition-colors flex items-center gap-2"
+              >
+                Join Membership <ArrowRight size={20} />
+              </button>
+            )}
+            <span className="text-xl font-medium text-white mt-4">
+              My Profile
+            </span>
             <button
               onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 setIsLoggedIn(false);
+                setIsPremium(false);
                 setIsMobileMenuOpen(false);
                 window.location.reload();
               }}
@@ -187,13 +281,15 @@ const Navbar = () => {
             </button>
           </div>
         ) : (
-          <Link
-            to="/signup"
+          <button
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              handleJoinMembership();
+            }}
             className="mt-8 bg-gym-accent text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-gym-orange transition-colors"
-            onClick={() => setIsMobileMenuOpen(false)}
           >
             Join Membership
-          </Link>
+          </button>
         )}
       </div>
     </nav>

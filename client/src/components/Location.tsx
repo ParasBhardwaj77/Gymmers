@@ -1,11 +1,38 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MapPin, Clock, Navigation, ArrowRight } from "lucide-react";
 import gsap from "gsap";
+import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 const Location = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);
+  const [isPremium, setIsPremium] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      try {
+        const userStr = localStorage.getItem("user");
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          setIsPremium(user.premium === true);
+        } else {
+          setIsPremium(false);
+        }
+      } catch (e) {
+        setIsPremium(false);
+      }
+    };
+
+    checkAuth();
+    window.addEventListener("storage", checkAuth);
+    return () => window.removeEventListener("storage", checkAuth);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,6 +70,23 @@ const Location = () => {
 
     return () => ctx.revert();
   }, []);
+
+  const handleJoinMembership = async () => {
+    if (!isLoggedIn) {
+      navigate("/signup");
+      return;
+    }
+
+    try {
+      const response = await api.post("/payment/create-checkout-session");
+      if (response.data && response.data.url) {
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+      alert("Failed to initiate payment. Please try again.");
+    }
+  };
 
   return (
     <section
@@ -111,10 +155,15 @@ const Location = () => {
                   />
                   Get Directions
                 </a>
-                <button className="px-8 py-4 bg-gym-accent text-white rounded-full font-bold hover:bg-gym-orange transition-all flex items-center justify-center gap-2 hover:scale-105 transform duration-300 shadow-lg hover:shadow-gym-orange/50">
-                  Join Membership
-                  <ArrowRight size={18} />
-                </button>
+                {!isPremium && (
+                  <button
+                    onClick={handleJoinMembership}
+                    className="px-8 py-4 bg-gym-accent text-white rounded-full font-bold hover:bg-gym-orange transition-all flex items-center justify-center gap-2 hover:scale-105 transform duration-300 shadow-lg hover:shadow-gym-orange/50"
+                  >
+                    Join Membership
+                    <ArrowRight size={18} />
+                  </button>
+                )}
               </div>
             </div>
           </div>

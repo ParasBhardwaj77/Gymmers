@@ -28,6 +28,7 @@ public class AuthService {
         user.setEmail(signupRequest.getEmail());
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         user.setRole("USER");
+        user.setPremium(false);
         userRepo.save(user);
         return new SignupResponse("Signup successful", user.getEmail());
     }
@@ -39,7 +40,7 @@ public class AuthService {
             throw new RuntimeException("Invalid email or password");
         }
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
-        return new LoginResponse(token, user.getRole(), user.getName(), user.getEmail());
+        return new LoginResponse(token, user.getRole(), user.getName(), user.getEmail(), user.isPremium());
     }
 
 }

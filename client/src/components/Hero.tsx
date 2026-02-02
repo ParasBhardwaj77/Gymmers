@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import gsap from "gsap";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, MessageCircle, X, Send } from "lucide-react";
+import api from "../api/axios";
 
 const TOTAL_FRAMES = 40;
 const FPS = 18; // 18 FPS - Sweet spot between laggy (12) and fast (24)
@@ -19,11 +20,72 @@ const Hero = () => {
   const textRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  // Question Modal State
+  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
+  const [questionText, setQuestionText] = useState("");
 
   // Store loaded images
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const animationRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef(0);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+      try {
+        const userStr = localStorage.getItem("user");
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          setIsPremium(user.premium === true);
+        } else {
+          setIsPremium(false);
+        }
+      } catch (e) {
+        setIsPremium(false);
+      }
+    };
+
+    checkAuth();
+    window.addEventListener("storage", checkAuth);
+    return () => window.removeEventListener("storage", checkAuth);
+  }, []);
+
+  const handleJoinMembership = async (e: React.MouseEvent) => {
+    if (isLoggedIn) {
+      e.preventDefault();
+      try {
+        const response = await api.post("/payment/create-checkout-session");
+        if (response.data && response.data.url) {
+          window.location.href = response.data.url;
+        }
+      } catch (error) {
+        console.error("Error creating checkout session:", error);
+        alert("Failed to initiate payment. Please try again.");
+      }
+    }
+  };
+
+  const handleSubmitQuestion = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      if (
+        confirm("You must be logged in to submit a question. Proceed to login?")
+      ) {
+        navigate("/login");
+      }
+      return;
+    }
+    // Here you would typically send the question to the backend
+    console.log("Question Submitted:", questionText);
+    alert("Your question has been received! We will get back to you shortly.");
+    setQuestionText("");
+    setIsQuestionModalOpen(false);
+  };
 
   // Preload Images
   useEffect(() => {
@@ -200,26 +262,70 @@ const Hero = () => {
           ref={buttonsRef}
           className="mt-10 flex flex-col md:flex-row items-center justify-center gap-6"
         >
-          <Link
-            to="/signup"
-            className="group relative bg-gym-accent text-white px-8 py-4 rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,95,31,0.6)] text-center"
-          >
-            <span className="relative z-10 flex items-center justify-center gap-3">
-              Join Membership
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </span>
-            <div className="absolute inset-0 bg-white/20 transform -skew-x-12 translate-x-full group-hover:animate-shine" />
-          </Link>
+          {!isPremium && (
+            <Link
+              to={isLoggedIn ? "#" : "/signup"}
+              onClick={handleJoinMembership}
+              className="group relative bg-gym-accent text-white px-8 py-4 rounded-full font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(255,95,31,0.6)] text-center"
+            >
+              <span className="relative z-10 flex items-center justify-center gap-3">
+                Join Membership
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <div className="absolute inset-0 bg-white/20 transform -skew-x-12 translate-x-full group-hover:animate-shine" />
+            </Link>
+          )}
 
-          <Link
-            to="/login"
+          <button
+            onClick={() => setIsQuestionModalOpen(true)}
             className="group border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:bg-white hover:text-gym-black hover:scale-105 flex items-center justify-center gap-3 text-center"
           >
             <MessageCircle className="w-5 h-5" />
             Ask a Question
-          </Link>
+          </button>
         </div>
       </div>
+
+      {/* Question Modal */}
+      {isQuestionModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-gym-black/90 border border-white/20 rounded-2xl w-full max-w-lg p-8 relative shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+            <button
+              onClick={() => setIsQuestionModalOpen(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
+
+            <h3 className="text-2xl font-bold text-white mb-2">
+              Have a Question?
+            </h3>
+            <p className="text-gray-400 mb-6">
+              Ask our expert trainers anything!
+            </p>
+
+            <form onSubmit={handleSubmitQuestion} className="space-y-6">
+              <div>
+                <textarea
+                  value={questionText}
+                  onChange={(e) => setQuestionText(e.target.value)}
+                  placeholder="Type your question here..."
+                  className="w-full h-40 bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-gray-500 focus:outline-none focus:border-gym-accent focus:ring-1 focus:ring-gym-accent transition-all resize-none"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gym-accent hover:bg-gym-orange text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Send size={20} />
+                Submit Question
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 ml-2 animate-bounce z-20 opacity-70">
