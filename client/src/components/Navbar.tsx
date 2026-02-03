@@ -16,7 +16,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const navRef = useRef<HTMLElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
 
