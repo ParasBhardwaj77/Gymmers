@@ -1,10 +1,39 @@
 import { useEffect, useRef } from "react";
 import { Check, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
+import api from "../api/axios";
 
 const Membership = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  const handleJoinMembership = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const userStr = localStorage.getItem("user");
+      const isPremium = userStr ? JSON.parse(userStr).premium === true : false;
+
+      if (isPremium) {
+        navigate("/ai-beta");
+        return;
+      }
+
+      const response = await api.post("/payment/create-checkout-session");
+      if (response.data && response.data.url) {
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+      alert("Failed to initiate payment. Please try again.");
+    }
+  };
 
   const plans = [
     {
@@ -112,6 +141,7 @@ const Membership = () => {
               </ul>
 
               <button
+                onClick={handleJoinMembership}
                 className={`w-full py-4 rounded-full font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
                   plan.highlight
                     ? "bg-gym-accent text-white hover:bg-gym-orange shadow-lg hover:shadow-gym-orange/50"
